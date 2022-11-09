@@ -37,28 +37,46 @@
 				width:20px;
 				height: 20px;
 			}
-			table, td, th{
-				text-align:center;
+			body {
+				padding:1.5em;
+				background: #f5f5f5
+			}
+
+			table {
+			 	border: 1px #a39485 solid;
+				font-size: .9em;
+				box-shadow: 0 2px 5px rgba(0,0,0,.25);
+				width: 100%;
+				border-collapse: collapse;
+				border-radius: 5px;
+				overflow: hidden;
 			}
 			a {
-				color:black;
-				text-decoration-line: none;
+			text-decoration: none;
 			}
 		</style>
 	</head>
 	
 	<body>
+		<!-- 메뉴 partial jsp 구성-->
+		<div>
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+			<!-- jsp 액션 태그 : 동일페이지 출력, 상대주소 사용할수 없다.(서버가 하는거라. 브라우저 입장에서 처리하는것은 절대주소인 context사용 가능 -->
+		</div>
+		
 		<div>
 			<h1 class="text-center">DEPT LIST</h1>
 		</div>
 		
-		<div class = "container">
-		<!-- 추가 버튼 -->
-			<div class="position-relative"> <!-- 추가 아이콘 -->
+		<div class="position-relative"> <!-- 추가 아이콘 -->
 				<a class = "position-absolute top-0 end-0" href="<%=request.getContextPath()%>/dept/insertDeptForm.jsp">
 					<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/add.png"/>
 				</a>
-			</div>
+		</div>
+			
+		<div class = "container">
+		<!-- 추가 버튼 -->
+			
 			<!-- 테이블 -->
 			<table class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;"> 
 				<thead>
@@ -71,24 +89,24 @@
 				
 				<tbody>
 					<% 
-					for(Department d : list){ // 자바 문법에서 제공하는 foreach문 -> 좀 더 보편성
+						for(Department d : list){ // 자바 문법에서 제공하는 foreach문 -> 좀 더 보편성
 					%>
-					<tr>
-						<td><%=d.deptNo%></td>
-						<td><%=d.deptName%></td>
-						<td> <!-- 수정 아이콘 -->
-							<a href="<%=request.getContextPath()%>/dept/updateDeptForm.jsp?deptNo=<%=d.deptNo%>">
-								<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/update.png"/>
-  							</a> 
-  							<!-- 삭제 아이콘 -->
-							<a href="<%=request.getContextPath()%>/dept/deleteDept.jsp?deptNo=<%=d.deptNo%>">
-								<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/delete.png"/>
-  							</a>
-						</td>
-					</tr>
-					<%
-					}
-					%>
+							<tr>
+								<td><%=d.deptNo%></td>
+								<td><%=d.deptName%></td>
+								<td> <!-- 수정 아이콘 -->
+									<a href="<%=request.getContextPath()%>/dept/updateDeptForm.jsp?deptNo=<%=d.deptNo%>">
+										<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/update.png"/>
+		  							</a> 
+		  							<!-- 삭제 아이콘 -->
+									<a href="<%=request.getContextPath()%>/dept/deleteDept.jsp?deptNo=<%=d.deptNo%>">
+										<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/delete.png"/>
+		  							</a>
+								</td>
+							</tr>
+						<%
+						}
+						%>
 				</tbody>
 			</table>
 		</div>

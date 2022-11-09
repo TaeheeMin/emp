@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
-<%@ page import = "vo.*" %>
+<%@ page import = "vo.Department"%>
 
 <%
 	request.setCharacterEncoding("utf-8"); //값 받아오는거 인코딩
-	String deptNo = request.getParameter("deptNo"); // list에서 받아오는 거니까 이름 같게! 
-	System.out.println(deptNo);
+	String deptNo = request.getParameter("deptNo"); // list에서 받아오는 거니까 이름 같게!
+	String deptName = request.getParameter("deptName");
+	
+	if(deptNo == null){ // form주소를 직접 호출하면 null값이 되어 막어야 함
+		response.sendRedirect(request.getContextPath()+"/dept/deptList.jsp"); // null 들어오면 리스트로 보냄
+		return;
+	}
 	
 	// 2. 요청 처리
 	// db 연결
@@ -14,17 +19,19 @@
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/employees", "root", "java1234");
 
 	// sql문 작성
-	String sql = "select dept_no deptNo, dept_name deptName from departments where dept_no = ?";
+	String sql = "SELECT dept_name deptName FROM departments WHERE dept_no = ?";
 	PreparedStatement stmt = conn.prepareStatement(sql); 
 	stmt.setString(1, deptNo);
-	
-	String deptName = request.getParameter("deptName");
-	
 	ResultSet rs = stmt.executeQuery(); // 0행 또는 1행
+	
+	Department dept = new Department();
+	dept.deptNo = null;
+	dept.deptName = null;
 	if (rs.next()) {
-		deptNo = rs.getString("deptNo");
-		deptName = rs.getString("deptName");
+		dept.deptNo = deptNo;
+		dept.deptName = rs.getString("deptName");
 	}
+	System.out.println("msg : " + request.getParameter("msg")); // 디버깅
 	
 	// 3. 출력
 %>
@@ -45,27 +52,52 @@
 	</head>
 	
 	<body>
+		<!-- 메뉴 partial jsp 구성-->
+		<div>
+			<jsp:include page="/inc/menu.jsp"></jsp:include>
+		</div>
+		
+		<!-- 제목 -->
+		<div> 
+			<h1 class="h3">
+				UPDATE DEPARTMENT<span></span>
+			</h1>
+		</div>
+		
+		<!-- msg 파라미터값이 있으면 출력 -->
+			<%
+			if(request.getParameter("msg") != null){
+			%>
+				<div><%=request.getParameter("msg")%></div>
+			<%
+			}
+			%>
+			
 		<div class = "container">
-				<div> <!-- 제목 -->
-					<h1 class="h3">
-						UPDATE DEPARTMENT<span></span>
-					</h1>
-				</div>
 			<form action="<%=request.getContextPath()%>/dept/updateDeptAction.jsp" method="post">
-				
+			<!-- msg 파라미터값이 있으면 출력 -->
+			<%
+			if(request.getParameter("updaetMsg") != null){
+			%>
+				<div><%=request.getParameter("updaetMsg")%></div>
+			<%
+			}
+			%>
 				<table class="table table-bordered table-hover w-50 rounded" style="margin-left: auto; margin-right: auto;"> 
 					<tr>
 						<td>DEPARTMENT NUMBER</td> <!-- 부서번호는 수정 불가 -->
 						<td>
-							<input type= "text" name="deptNo" value="<%=deptNo%>" readonly="readonly"> 
-							
+							<input type= "text" name="deptNo" value="<%=dept.deptNo%>" readonly="readonly"> 
 						</td>
 					</tr>
+					
 					<tr>
 						<td>DEPARTMENT NAME</td> <!-- 부서명 입력값 가져오기 -->
 						<td>
-							<input type= "text" name="deptName" value="<%=deptName%>"> 
+							<input type= "text" name="deptName" value="<%=dept.deptName%>"> 
 						</td>
+					</tr>
+					
 					<tr>
 						<td colspan ="2">
 							<button type="submit" class="btn text-black .bg-dark.bg-gradient"  style="background-color:#D4D4D4;">UPDATE</button>
