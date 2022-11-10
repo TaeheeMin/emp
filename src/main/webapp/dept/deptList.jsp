@@ -67,16 +67,14 @@
 		<div>
 			<h1 class="text-center">DEPT LIST</h1>
 		</div>
-		
-		<div class="position-relative"> <!-- 추가 아이콘 -->
+			
+		<div class = "container">
+			<!-- 추가 아이콘 -->
+			<div class="position-relative"> 
 				<a class = "position-absolute top-0 end-0" href="<%=request.getContextPath()%>/dept/insertDeptForm.jsp">
 					<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/add.png"/>
 				</a>
-		</div>
-			
-		<div class = "container">
-		<!-- 추가 버튼 -->
-			
+			</div>
 			<!-- 테이블 -->
 			<table class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;"> 
 				<thead>

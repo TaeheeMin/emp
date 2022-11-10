@@ -60,6 +60,25 @@
 		<title>Employee List</title>
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+		<style>
+			body {
+				padding:1.5em;
+				background: #f5f5f5
+			}
+
+			table {
+			 	border: 1px #a39485 solid;
+				font-size: .9em;
+				box-shadow: 0 2px 5px rgba(0,0,0,.25);
+				width: 100%;
+				border-collapse: collapse;
+				border-radius: 5px;
+				overflow: hidden;
+			}
+			a {
+			text-decoration: none;
+			}
+		</style>
 	</head>
 	
 	<body>
@@ -68,10 +87,11 @@
 			<jsp:include page="/inc/menu.jsp"></jsp:include>
 		</div>
 		
-		<h1>사원목록</h1>
+		<h1 class="text-center">사원목록</h1>
 		
-		<div>현재 페이지 : <%=currentPage %></div>
-		<table>
+		<div class="text-center">현재 페이지 : <%=currentPage %></div>
+		<div>
+		<table  class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;">
 			<tr>
 				<th>emp no</th>
 				<th>first name</th>
@@ -95,10 +115,10 @@
 			%>
 		
 		</table>
-		
+		</div>
 		
 		<!-- 페이징 코드 -->
-		<div>
+		<div class = "container">
 			<a href="<%=request.getContextPath()%>/emp/empList.jsp?currentPage=1">처음</a>
 			<%
 				if(currentPage > 1){
