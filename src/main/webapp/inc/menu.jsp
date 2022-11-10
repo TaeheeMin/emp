@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!-- partial jsp 페이지 사용 코드 -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	<nav id="nav" class="navbar navbar-expand-sm bg-dark navbar-dark">
 			<div class="container-fluid">
 				<a class="navbar-brand" href="<%=request.getContextPath()%>/index.jsp">GOODEE</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -19,6 +19,9 @@
 			        </li>
 			        <li class="nav-item">
 			          <a class="nav-link" href="<%=request.getContextPath()%>/emp/empList.jsp">연봉관리</a>
+			        </li>
+			        <li class="nav-item">
+			          <a class="nav-link" href="<%=request.getContextPath()%>/board/boardList.jsp">게시판관리</a>
 			        </li>
 			      </ul>
 			    </div>

@@ -52,7 +52,10 @@
 				overflow: hidden;
 			}
 			a {
-			text-decoration: none;
+				text-decoration: none;
+			}
+			th {
+				text-align:center
 			}
 		</style>
 	</head>
@@ -69,19 +72,13 @@
 		</div>
 			
 		<div class = "container">
-			<!-- 추가 아이콘 -->
-			<div class="position-relative"> 
-				<a class = "position-absolute top-0 end-0" href="<%=request.getContextPath()%>/dept/insertDeptForm.jsp">
-					<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/add.png"/>
-				</a>
-			</div>
 			<!-- 테이블 -->
 			<table class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;"> 
 				<thead>
 					<tr>
-						<th>DEPARTMENT NO</th>
+						<th style="width:100px;">DEPT NO</th>
 						<th>DEPARTMENT NAME</th>
-						<th>ACTION</th>
+						<th style="width:100px;">ACTION</th>
 					</tr>
 				</thead>
 				
@@ -90,9 +87,9 @@
 						for(Department d : list){ // 자바 문법에서 제공하는 foreach문 -> 좀 더 보편성
 					%>
 							<tr>
-								<td><%=d.deptNo%></td>
+								<td style="text-align:center"><%=d.deptNo%></td>
 								<td><%=d.deptName%></td>
-								<td> <!-- 수정 아이콘 -->
+								<td style="text-align:center"> <!-- 수정 아이콘 -->
 									<a href="<%=request.getContextPath()%>/dept/updateDeptForm.jsp?deptNo=<%=d.deptNo%>">
 										<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/update.png"/>
 		  							</a> 
@@ -106,7 +103,13 @@
 						}
 						%>
 				</tbody>
+				<!-- 추가 아이콘 -->
 			</table>
+			<div> 
+				<a href="<%=request.getContextPath()%>/dept/insertDeptForm.jsp">
+					<img class="img-concert" src="<%=request.getContextPath()%>/dept/img/add.png"/>부서추가
+				</a>
+			</div>
 		</div>
 	</body>
 </html>

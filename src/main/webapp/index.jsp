@@ -32,16 +32,9 @@
 		<h1 class="text-center">INDEX</h1>
 		
 		<div class = "container">
-			<table class = "table table-hover w-50 rounded" style="table-layout: auto; width: 50%; table-layout: fixed;"> 
-				<tr>
-					<td>
-						<a href="<%=request.getContextPath()%>/dept/deptList.jsp">부서관리</a>
-					</td>
-					<td>
-						<a href="<%=request.getContextPath()%>/emp/empList.jsp">사원관리</a>
-					</td>
-				</tr>
-			</table>
+			<a href="<%=request.getContextPath()%>/dept/deptList.jsp">부서관리</a>
+			<a href="<%=request.getContextPath()%>/emp/empList.jsp">사원관리</a>
+			<a href="<%=request.getContextPath()%>/board/boardList.jsp">게시판관리</a>
 		</div>
 	</body>
 </html>

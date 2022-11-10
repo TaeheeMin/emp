@@ -91,30 +91,28 @@
 		
 		<div class="text-center">현재 페이지 : <%=currentPage %></div>
 		<div>
-		<table  class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;">
-			<tr>
-				<th>emp no</th>
-				<th>first name</th>
-				<th>last name</th>
-			</tr>
-			<%
-				for(Employee e : empList) {
-			%>
+			<table class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;">
 				<tr>
-					<td><%=e.empNo%></td>
-					<td>
-						<a href="">
-						<%=e.firstName%></a>
-					</td>
-					<td><%=e.lastName%></td>
+					<th>emp no</th>
+					<th>first name</th>
+					<th>last name</th>
 				</tr>
-					
-			<%
-			
-				}
-			%>
-		
-		</table>
+				<%
+					for(Employee e : empList) {
+				%>
+					<tr>
+						<td><%=e.empNo%></td>
+						<td>
+							<a href="">
+							<%=e.firstName%></a>
+						</td>
+						<td><%=e.lastName%></td>
+					</tr>
+				<%
+				
+					}
+				%>
+			</table>
 		</div>
 		
 		<!-- 페이징 코드 -->

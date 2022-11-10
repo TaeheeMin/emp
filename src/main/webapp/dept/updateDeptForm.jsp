@@ -2,6 +2,7 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 <%@ page import = "vo.Department"%>
+<%@ page import = "java.net.URLEncoder" %>
 
 <%
 	request.setCharacterEncoding("utf-8"); //값 받아오는거 인코딩
@@ -87,13 +88,13 @@
 		</div>
 		
 		<!-- msg 파라미터값이 있으면 출력 -->
-			<%
-			if(request.getParameter("msg") != null){
-			%>
-				<div><%=request.getParameter("msg")%></div>
-			<%
-			}
-			%>
+		<%
+		if(request.getParameter("msg") != null){
+		%>
+			<div><%=request.getParameter("msg")%></div>
+		<%
+		}
+		%>
 			
 		<div class = "container">
 			<form action="<%=request.getContextPath()%>/dept/updateDeptAction.jsp" method="post">
