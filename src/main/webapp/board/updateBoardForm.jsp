@@ -5,12 +5,14 @@
 <%@ page import = "java.net.URLEncoder" %>
 <%
 	request.setCharacterEncoding("utf-8"); //값 받아오는거 인코딩
+	String msg = request.getParameter("msg");
+	int boardNo = Integer.parseInt(request.getParameter("boardNo")); // 수정할 번호 받아오기
+	
 	if(request.getParameter("boardNo") == null){ // form주소를 직접 호출하면 null값이 되어 막어야 함
 		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp"); // null 들어오면 리스트로 보냄
 		return;
 	}
 	
-	int boardNo = Integer.parseInt(request.getParameter("boardNo")); // 수정할 번호 받아오기
 	// 2. 요청 처리
 	// db 연결
 	Class.forName("org.mariadb.jdbc.Driver"); 
@@ -97,9 +99,9 @@
 		<div class = "container">
 			<!-- msg 파라미터값이 있으면 출력 -->
 			<%
-			if(request.getParameter("msg") != null){
+			if(msg != null){
 			%>
-				<div class="text-center"><%=request.getParameter("msg")%></div>
+				<div class="text-center"><%=msg%></div>
 			<%
 			}
 			%>

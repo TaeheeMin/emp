@@ -5,15 +5,15 @@
 <%@ page import = "java.net.URLEncoder" %>
 <%
 	request.setCharacterEncoding("utf-8"); //값 받아오는거 인코딩
+	int boardNo = Integer.parseInt(request.getParameter("boardNo")); // 삭제할 게시글 번호 받아오기
+	String msg = request.getParameter("msg");
+	
 	if(request.getParameter("boardNo") == null){ // form주소를 직접 호출하면 null값이 되어 막어야 함
 		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp"); // null 들어오면 리스트로 보냄
 		return;
 	}
 	
-	int boardNo = Integer.parseInt(request.getParameter("boardNo")); // 삭제할 게시글 번호 받아오기
-	
-	
-	// 2. 요청 처리
+	// 2. 요청 처리 -> 내용 안보이게 만들거면 필요 없음
 	// db 연결
 	Class.forName("org.mariadb.jdbc.Driver"); 
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/employees", "root", "java1234");
@@ -58,7 +58,6 @@
 				border-collapse: collapse;
 				border-radius: 5px;
 				overflow: hidden;
-				text-align:center;
 			}
 			a {
 				text-decoration: none;
@@ -98,47 +97,33 @@
 			
 		<!-- msg 파라미터값이 있으면 출력 -->
 		<%
-		if(request.getParameter("msg") != null){
+		if(msg != null){
 		%>
-			<div class="text-center"><%=request.getParameter("msg")%></div>
+			<div class="text-center"><%=msg%></div>
 		<%
 		}
 		%>
+		
 		<div class = "container">
 			<form action="<%=request.getContextPath()%>/board/deleteBoardAction.jsp" method="post">
 				<div>
+					<input type="hidden" name="boardNo" value="<%=board.boardNo %>"> <!-- 내용 미출력 hidden 사용 -->
 					<table  class="table table-bordered table-hover w-100 rounded" style="margin-left: auto; margin-right: auto;">
 						<tr>
-							<th>번호</th>
-							<td>
-								<input type="text" name="boardNo" value="<%=board.boardNo %>" readonly="readonly"> 
-							</td>
-						</tr>
-						<tr>
 							<th>제목</th>
-							<td>
-								<input type="text" name="boardTitle" value="<%=board.boardTitle %>" readonly="readonly">
-							</td>
+							<td><%=board.boardTitle %></td>
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td>
-								<textarea name="boardContent" readonly="readonly">
-								<%=board.boardContent %>
-								</textarea>
-							</td>	
+							<td><%=board.boardContent %></td>	
 						</tr>
 						<tr>
 							<th>작성자</th>
-							<td>
-								<input type="text" name="boardWriter" value="<%=board.boardWriter %>" readonly="readonly">
-							</td>
+							<td><%=board.boardWriter %></td>
 						</tr>
 						<tr>
 							<th>작성일</th>
-							<td>
-								<input type="text" name="createdate" value="<%=board.createdate %>" readonly="readonly">
-							</td>
+							<td><%=board.createdate %></td>
 						</tr>
 						<tr>
 							<th>비밀번호</th>
@@ -147,8 +132,8 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan ="2">
-								<button type="submit" class="btn text-black .bg-dark.bg-gradient"  style="background-color:#D4D4D4;">DELETE</button>
+							<td style="text-align:center;" colspan ="2">
+								<button type="submit" class="btn text-black .bg-dark.bg-gradient" style="background-color:#D4D4D4;">DELETE</button>
 							</td>
 						</tr>
 					</table>

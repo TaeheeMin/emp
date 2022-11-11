@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
+<%@ page import = "java.sql.*" %>
 <%@ page import = "vo.*"%>
 <%@ page import = "java.net.URLEncoder" %>
 <%
@@ -25,33 +25,36 @@
 	
 	// 2-1 비밀번호 확인
 	String deleteSql = "DELETE FROM board WHERE board_no=? AND board_pw=?";
+	// 쿼리 셋팅
 	PreparedStatement deletetStmt = conn.prepareStatement(deleteSql);
 	deletetStmt.setInt(1, board.boardNo);
 	deletetStmt.setString(2, board.boardPw);
 	
+	/* 쿼리 실행 결과 -> 내가 작성한 코드
 	ResultSet deleteRs = deletetStmt.executeQuery();
 	
-	if(deleteRs.next()) { // 결과물이 있으면 동일값 존재 -> 수정 진행
-	} else { // 없으면 비밀번호 확인 메세지 출력
+	if(deleteRs.next() == false) { // 없으면 동일값 존재안함 -> 폼으로 돌아가고 비밀번호 확인 메세지 출력
 		String deleteMsg = URLEncoder.encode("비밀번호를 확인해주세요","utf-8");
 		response.sendRedirect(request.getContextPath()+"/board/deleteBoardForm.jsp?msg="+deleteMsg+"&boardNo="+board.boardNo);
 		return;
 	}
-		System.out.println(request.getParameter("deleteMsg"));
+	*/
 	
-	
-	// 실행 및 디버깅 변수 선언
+	// 쿼리 실행
 	int row = deletetStmt.executeUpdate();
 	
-	// 디버깅
+	// 쿼리 실행결과 -> 좀 더 간결한 코드
 	if (row == 1) {
-	   System.out.println("수정 성공");
+		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
+		System.out.println("삭제 성공");
 	} else {
-	   System.out.println("수정 실패");
+		String deleteMsg = URLEncoder.encode("비밀번호를 확인해주세요","utf-8");
+		response.sendRedirect(request.getContextPath()+"/board/deleteBoardForm.jsp?msg="+deleteMsg+"&boardNo="+board.boardNo);
+		System.out.println("삭제 실패");
+		return;
 	}
 	
 	// 수정 후 리스트로 돌아감
-	response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
 
 	// 3. 출력 -> 출력없음
 %>

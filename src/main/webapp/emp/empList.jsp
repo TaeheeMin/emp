@@ -65,7 +65,6 @@
 				padding:1.5em;
 				background: #f5f5f5
 			}
-
 			table {
 			 	border: 1px #a39485 solid;
 				font-size: .9em;
@@ -75,8 +74,14 @@
 				border-radius: 5px;
 				overflow: hidden;
 			}
+			#nav{
+			}
 			a {
-			text-decoration: none;
+				text-decoration: none;
+			}
+		
+			th {
+				text-align:center
 			}
 		</style>
 	</head>
