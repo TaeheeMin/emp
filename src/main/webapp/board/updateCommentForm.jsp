@@ -7,6 +7,7 @@
 	request.setCharacterEncoding("utf-8"); //값 받아오는거 인코딩
 	String msg = request.getParameter("msg");
 	int boardNo = Integer.parseInt(request.getParameter("boardNo")); // 수정할 번호 받아오기
+	int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 삭제할 댓글 번호 받아오기
 	
 	if(request.getParameter("boardNo") == null){ // form주소를 직접 호출하면 null값이 되어 막어야 함
 		response.sendRedirect(request.getContextPath()+"/board/boardList.jsp"); // null 들어오면 리스트로 보냄
@@ -19,19 +20,18 @@
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/employees", "root", "java1234");
 
 	// sql문 작성
-	String updSql = "SELECT board_title boardTitle, board_content boardContent, board_writer boardWriter, createdate FROM board WHERE board_no=?";
+	String updSql = "SELECT comment_no commentNo, comment_content commentContent FROM comment WHERE board_no=? AND comment_no=?";
 	PreparedStatement updStmt = conn.prepareStatement(updSql); 
 	updStmt.setInt(1, boardNo);
+	updStmt.setInt(2, commentNo);
 	ResultSet updRs = updStmt.executeQuery();
 	
-	Board board = null;
+	Comment comment = null;
 	if(updRs.next()){
-		board = new Board();
-		board.boardNo = boardNo;
-		board.boardTitle = updRs.getString("boardTitle");
-		board.boardContent = updRs.getString("boardContent");
-		board.boardWriter = updRs.getString("boardWriter");
-		board.createdate = updRs.getString("createdate");
+		comment = new Comment();
+		comment.boardNo = boardNo;
+		comment.commentNo = updRs.getInt("commentNo");;
+		comment.commentContent = updRs.getString("commentContent");;
 	}
 	
 	// 3. 출력
@@ -105,55 +105,27 @@
 			<%
 			}
 			%>
-			<form action="<%=request.getContextPath()%>/board/updateBoardAction.jsp" method="post">
-				<div>
-					<table class="table table-bordered table-hover w-100 rounded" style="margin-left: auto; margin-right: auto;">
-						<tr>
-							<th>번호</th>
-							<td>
-								<input type="text" name="boardNo" readonly="readonly" value="<%=board.boardNo %>"> 
-							</td>
-						</tr>
-						<tr>
-							<th>제목</th>
-							<td>
-								<input type="text" name="boardTitle" value="<%=board.boardTitle %>">
-							</td>
-						</tr>
-						<tr>
-							<th>내용</th>
-							<td>
-								<textarea name="boardContent">
-								<%=board.boardContent %>
-								</textarea>
-							</td>	
-						</tr>
-						<tr>
-							<th>작성자</th>
-							<td>
-								<input type="text" name="boardWriter" value="<%=board.boardWriter %>" readonly="readonly">
-							</td>
-						</tr>
-						<tr>
-							<th>작성일</th>
-							<td>
-								<input type="text" name="createdate" value="<%=board.createdate %>" readonly="readonly">
-							</td>
-						</tr>
-						<tr>
-							<th>비밀번호</th>
-							<td>
-								<input type="password" name="boardPw">
-							</td>
-						</tr>
-						<tr>
-							<td colspan ="2">
-								<button type="submit" class="btn text-black .bg-dark.bg-gradient"  style="background-color:#D4D4D4;">UPDATE</button>
-							</td>
-						</tr>
-					</table>
-				</div>
-				
+			<form action="<%=request.getContextPath()%>/board/updateBoardAction.jsp?boardNo=<%=boardNo%>&commentNo=<%=commentNo %>" method="post">
+				<input type="hidden" name="boardNo" value="<%=comment.commentNo %>"> 
+				<table class="table table-bordered table-hover w-100 rounded" style="margin-left: auto; margin-right: auto;">
+					<tr>
+						<th>내용</th>
+						<td>
+							<textarea name="commentContent"><%=comment.commentContent %></textarea>
+						</td>
+					</tr>
+					<tr>
+						<th>비밀번호</th>
+						<td>
+							<input type="password" name="commentPw">
+						</td>
+					</tr>
+					<tr>
+						<td colspan ="2">
+							<button type="submit" class="btn text-black .bg-dark.bg-gradient"  style="background-color:#D4D4D4;">UPDATE</button>
+						</td>
+					</tr>
+				</table>
 			</form>
 		</div>	
 	</body>

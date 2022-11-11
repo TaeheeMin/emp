@@ -6,7 +6,7 @@
 <%
 	request.setCharacterEncoding("utf-8"); //값 받아오는거 인코딩
 	int boardNo = Integer.parseInt(request.getParameter("boardNo")); // 삭제할 게시글 번호 받아오기
-	int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 삭제할 게시글 번호 받아오기
+	int commentNo = Integer.parseInt(request.getParameter("commentNo")); // 삭제할 댓글 번호 받아오기
 	String msg = request.getParameter("msg");
 	
 	if(request.getParameter("boardNo") == null){ // form주소를 직접 호출하면 null값이 되어 막어야 함
