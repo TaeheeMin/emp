@@ -5,12 +5,29 @@
 <%@ page import = "vo.*" %>
 
 <%
+	// 1. 요청 분석
+	// 검색기능으로 요청 받아오기
+	request.setCharacterEncoding("utf-8");
+	String word = request.getParameter("word");
+	// word-> 1)null 2)''공백일때 or 3)'단어' -> stmt 수정
+	// 분기별로 쿼리 작성하는게 정석
+	
 	// 2. 업무 처리(model)
 	Class.forName("org.mariadb.jdbc.Driver");
 	System.out.println("드라이버 로딩 성공");
-	
 	Connection conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/employees", "root", "java1234");
-	PreparedStatement stmt = conn.prepareStatement("select dept_no deptNo, dept_name deptName from departments order by dept_no desc");
+	
+	// 동적 쿼리
+	PreparedStatement stmt = null;
+	if(word == null){
+		String sql = "SELECT dept_no deptNo, dept_name deptName FROM departments ORDER BY dept_no DESC";
+		stmt = conn.prepareStatement(sql); // null이라면 그냥 리스트
+	} else {
+		String sql = "SELECT dept_no deptNo, dept_name deptName FROM departments WHERE dept_name LIKE ? ORDER BY dept_no DESC";
+		stmt = conn.prepareStatement(sql);
+		stmt.setString(1, "%" + word + "%"); // 공백이나 단어검색 했을때 
+	}
+	
 	ResultSet rs = stmt.executeQuery(); // 모델 데이터 ResultSet 보편적인 타입은 아니다
 	// ResultSet 모델 자료구조를 좀 더 일반적이고 독립적인 자료 구조로 변경!!!
 	
@@ -67,11 +84,15 @@
 			<!-- jsp 액션 태그 : 동일페이지 출력, 상대주소 사용할수 없다.(서버가 하는거라. 브라우저 입장에서 처리하는것은 절대주소인 context사용 가능 -->
 		</div>
 		
-		<div>
-			<h1 class="text-center">DEPT LIST</h1>
-		</div>
-			
+		<div><h1 class="text-center">DEPT LIST</h1></div>
+		
 		<div class = "container">
+			<!-- 검색 기능 : 주로 get 방식 사용, 주소에 내용이 보임(a태그는 get방식), get으로 하면 즐겨찾기시 내용까지 같이 저장됨 -->
+			<form method="post" action="<%=request.getContextPath()%>/dept/deptList.jsp">
+				<label for="word">부서이름 검색 : </label>
+				<input type="text" name="word" id="name">
+				<button type="submit">검색</button>
+			</form>
 			<!-- 테이블 -->
 			<table class = "table table-hover w-100 rounded" style="table-layout: auto; width: 100%; table-layout: fixed;"> 
 				<thead>
