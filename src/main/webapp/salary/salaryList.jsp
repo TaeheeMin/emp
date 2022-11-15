@@ -109,6 +109,10 @@
 		salaryList.add(s);
 	}
 	*/
+	listRs.close();
+	listStmt.close();
+	conn.close();
+	// db 연결 끊어주는 메서드
 	// 3. 출력
 	
 %>
